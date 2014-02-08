@@ -31,6 +31,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.loading.hidden = NO;
 
     [self getTimeLine];
     
@@ -54,6 +55,7 @@
 }
 -(void) reloadTableData
 {
+    self.loading.hidden = NO;
     // call to reload your data
     [self getTimeLine];
     [self.tweetTableView reloadData];
@@ -93,12 +95,13 @@
              {
                  // Handle failure to get account access
                  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Twitter Accounts"
-                                                                 message:@"There are no Twitter accounts configured. You must add or create one in Settings"
+                                                                 message:@"There are no Twitter accounts configured. You must add or create one in Settings."
                                                                 delegate:self
                                                        cancelButtonTitle:@"Ok"
                                                        otherButtonTitles:nil];
                  [alert show];
                  self.statusLabel.text = @"No account = No tweets";
+                 self.loading.hidden = YES;
              }
              else {
                  self.statusLabel.text = @"";
@@ -133,6 +136,7 @@
                       
                       if (self.dataSource.count != 0) {
                           dispatch_async(dispatch_get_main_queue(), ^{
+                              self.loading.hidden = YES;
                               [self.tweetTableView reloadData];
                           });
                       }
@@ -172,7 +176,7 @@
                 reuseIdentifier:CellIdentifier];
     }
 
-    if ([self.dataSource valueForKey:@"errors"]==nil) {
+    if ([[[self.dataSource objectAtIndex:0] allKeys] containsObject:@"errors"]) {
         NSLog(@"Errors!");
     }
     else
@@ -249,7 +253,14 @@
     {
         DetailViewController *detailViewController = (DetailViewController *)segue.destinationViewController;
 
+        NSIndexPath *indexPath = [self.tweetTableView indexPathForSelectedRow];
+        NSDictionary *tweet = self.dataSource[[[self.tweetTableView indexPathForSelectedRow] row]];
+        [detailViewController setTweet:tweet];
         
+        //NSDictionary* instrumentDetails = [Instruments objectAtIndex:indexPath.row];
+        
+        //[[segue destinationViewController] setDetailItem:instrumentDetails];
+
     }
     
 }

@@ -78,9 +78,9 @@
                                          options:NSJSONReadingMutableLeaves
                                          error:&error];
                       if (self.dataSource!=nil) {
-                          self.name.text = [_dataSource objectForKey:@"name"];
-                          self.bio.text = [_dataSource objectForKey:@"description"];
-                          self.location.text = [_dataSource objectForKey:@"location"];
+                          self.name.text = [self.dataSource objectForKey:@"name"];
+                          self.bio.text = [self.dataSource objectForKey:@"description"];
+                          self.location.text = [self.dataSource objectForKey:@"location"];
 
                           [self downloadImageWithURL:[NSURL URLWithString:self.dataSource[@"profile_banner_url"]] completionBlock:^(BOOL succeeded, UIImage *image) {
                               if (succeeded) {

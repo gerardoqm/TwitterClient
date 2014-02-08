@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tweetTableView;
 @property (strong, nonatomic) NSArray *dataSource;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loading;
 
 -(IBAction)newTweet:(id)sender;
 
